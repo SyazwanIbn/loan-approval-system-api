@@ -1,0 +1,19 @@
+#Setup Docker untuk PostgreSQL (rumah as container untuk db)
+
+version: '3.8'
+
+services:
+  postgres-db:
+    image: postgres:15-alpine # Kita guna versi Alpine sebab ringan
+    container_name: loan_db_container
+    environment:
+      POSTGRES_USER: loan_admin
+      POSTGRES_PASSWORD: rootpassword123
+      POSTGRES_DB: loan_system_db
+    ports:
+      - "5432:5432" # Port laptop kau : Port dalam container
+    volumes:
+      - postgres-data:/var/lib/postgresql/data # Supaya data tak hilang bila container mati
+
+volumes:
+  postgres-data:
