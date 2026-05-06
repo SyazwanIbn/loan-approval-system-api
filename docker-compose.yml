@@ -11,7 +11,7 @@ services:
       POSTGRES_PASSWORD: rootpassword123
       POSTGRES_DB: loan_system_db
     ports:
-      - "5432:5432" # Port laptop kau : Port dalam container
+      - "5433:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data # Supaya data tak hilang bila container mati
 
