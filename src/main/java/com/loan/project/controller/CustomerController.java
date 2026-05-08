@@ -3,6 +3,7 @@ package com.loan.project.controller;
 import com.loan.project.dto.CustomerRequest;
 import com.loan.project.dto.CustomerResponse;
 import com.loan.project.service.CustomerService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,9 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PostMapping
-    public ResponseEntity<CustomerResponse> registerCustomer(@RequestBody CustomerRequest request) {
+    public ResponseEntity<CustomerResponse> registerCustomer(
+            @Valid
+            @RequestBody CustomerRequest request) {
         CustomerResponse response = customerService.registerCustomer(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
