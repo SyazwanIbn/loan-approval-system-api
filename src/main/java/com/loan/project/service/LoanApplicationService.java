@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -68,6 +70,48 @@ public class LoanApplicationService {
                 .createdAt(savedLoan.getCreatedAt() != null ? savedLoan.getCreatedAt().toString() : "TBD")
                 .build();
     }
+
+    //get all loan
+    public List<LoanApplicationResponse> getAllLoanApplications() {
+        return loanRepository.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
+
+    //get loan by id
+    public LoanApplicationResponse getLoanById(UUID id) {
+        LoanApplication loan = loanRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Loan Application Not Found"));
+        return mapToResponse(loan);
+    }
+
+    //get loan by customer id
+    public List<LoanApplicationResponse> getAllLoanApplicationsByCustomerId(UUID id) {
+        //check customer wujud ke tak
+        if(!customerRepository.existsById(id)) {
+            throw new RuntimeException("Customer Not Found");
+        }
+
+        return loanRepository.findByCustomerId(id)
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
+
+    //helper method
+    private LoanApplicationResponse mapToResponse(LoanApplication loan) {
+        return LoanApplicationResponse.builder()
+                .applicationId(loan.getId())
+                .customerName(loan.getCustomer().getFullName())
+                .loanAmount(loan.getLoanAmount())
+                .tenureMonths(loan.getTenureMonths())
+                .status(loan.getStatus().name())
+                .createdAt(loan.getCreatedAt() != null ? loan.getCreatedAt().toString() : "TBD")
+                .build();
+    }
+
+
 
 
 
