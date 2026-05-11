@@ -7,6 +7,7 @@ import com.loan.project.entity.LoanApplication;
 import com.loan.project.enums.LoanStatus;
 import com.loan.project.repository.CustomerRepository;
 import com.loan.project.repository.LoanApplicationRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ public class LoanApplicationService {
     // set had maksimun dsr ke 60%
     private static final BigDecimal MAX_DSR_THRESHOLD = new BigDecimal("0.60");
 
+    @Transactional
     public LoanApplicationResponse applyForLoan(LoanApplicationRequest request) {
         // 1. find customer in database
         Customer customer  =customerRepository.findById(request.getCustomerId())
