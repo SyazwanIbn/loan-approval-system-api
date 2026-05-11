@@ -4,6 +4,7 @@ import com.loan.project.dto.LoanApplicationRequest;
 import com.loan.project.dto.LoanApplicationResponse;
 import com.loan.project.service.LoanApplicationService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class LoanApplicationController {
     private final LoanApplicationService loanApplicationService;
 
     @PostMapping("/apply")
-    public ResponseEntity<LoanApplicationResponse> applyForLoan(@RequestBody LoanApplicationRequest request)
+    public ResponseEntity<LoanApplicationResponse> applyForLoan(@Valid @RequestBody LoanApplicationRequest request)
     {
         LoanApplicationResponse response = loanApplicationService.applyForLoan(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
